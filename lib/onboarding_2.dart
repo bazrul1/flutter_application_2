@@ -78,14 +78,24 @@ class _Onboarding2State extends State<Onboarding2> {
                     ),
                   ),
                 ),
-                
-                Text(
-                  "Login",
-                  style: GoogleFonts.urbanist(
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xfff0062FF),
+
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (cntext) => SingIn()),
+                    );
+                  },
+                  child: Container(
+                    child: Text(
+                      "Login",
+                      style: GoogleFonts.urbanist(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xfff0062FF),
+                        ),
+                      ),
                     ),
                   ),
                 ),

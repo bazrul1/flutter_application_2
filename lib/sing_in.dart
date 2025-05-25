@@ -1,19 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/Home_v1.dart';
 import 'package:flutter_application_2/sing_up.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SingIn extends StatefulWidget {
   const SingIn({Key? key}) : super(key: key);
 
   @override
   _SingInState createState() => _SingInState();
+
 }
 
 class _SingInState extends State<SingIn> {
 bool _obscureText = true; 
+TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
 
+Userlogin() async {
+    SharedPreferences BS = await SharedPreferences.getInstance();
+    if (email.text == ""|| password.text == "") {
+      print("empty");
+    } else {
+      if (BS.getString("email") != null) {
+        String emailget = BS.getString("email")!;
+        String passwordget = BS.getString("password")!;
 
+        if (emailget == email.text && passwordget == password.text) {
+          BS.setString("Sing in", "true");
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => HomeV1()));
+        } else {
+          print("Data not valid");
+        }
+      } else {
+        print("No user Sing up");
+      }
+    }
+  }
+
+@override
+  void initState() {
+    Future.delayed(Duration(microseconds: 2), () async {
+      SharedPreferences BS = await SharedPreferences.getInstance();
+      if (BS.getString("Sing in") != null) {
+        if (BS.getString("Sing in") == "true") {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => HomeV1()));
+        }
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,28 +87,30 @@ bool _obscureText = true;
               ),
 
               SizedBox(height: 20),
-              Container(
-                height: 48,
-                width: 335,
-                color: Color(0xfffE9ECF2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/google.png', height: 24, width: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        "Sign in with Google",
-                        style: GoogleFonts.urbanist(
-                          textStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+              Card  (
+                child: Container(
+                  height: 48,
+                  width: 335,
+                  color: Color(0xfffE9ECF2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/google.png', height: 24, width: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          "Sign in with Google",
+                          style: GoogleFonts.urbanist(
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -92,13 +133,14 @@ bool _obscureText = true;
                 width: 335,
                 height: 60,
                 child: TextField(
+                  controller: email,
                   decoration: InputDecoration(
                     labelText: "Type your email",
                     labelStyle: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
-                    prefixIcon: Icon(Icons.mail),
+                    prefixIcon:Image.asset('assets/mail.png'),
                   ),
                 ),
               ),
@@ -108,6 +150,7 @@ bool _obscureText = true;
                 height: 60,
                     
                 child: TextField(
+                  controller: password,
                    obscureText: _obscureText,
                   decoration: InputDecoration(
                     
@@ -117,7 +160,7 @@ bool _obscureText = true;
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: Image.asset('assets/lock.png'),
                     suffixIcon:IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility_off : Icons.visibility,
@@ -134,29 +177,31 @@ bool _obscureText = true;
               ),
 
               SizedBox(height: 100),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (cntext) => SingIn()),
-                  );
-                },
-                child: Container(
-                  height: 48,
-                  width: 328,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xfff0062FF),
-                  ),
-
-                  child: Center(
-                    child: Text(
-                      "Sign In",
-                      style: TextStyle(color: Colors.white),
+              Container(
+                      height: 50,
+                      width: double.maxFinite,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xfff0062FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () async {
+                          await Userlogin();
+                        },
+                        child: Text(
+                    'Sing in',
+                    style: GoogleFonts.urbanist(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: Color(0xfffFFFFFF),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                      ),
+                    ),
               
               SizedBox(height: 30),
               Center(

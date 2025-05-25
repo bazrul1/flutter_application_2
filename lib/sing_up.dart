@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/sing_in.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({Key? key}) : super(key: key);
@@ -10,11 +11,39 @@ class SingUp extends StatefulWidget {
 }
 
 class _SingUpState extends State<SingUp> {
+  bool _isChecked = false;
   bool _obscureText = true;
+
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  UserRegister() async {
+    SharedPreferences BS = await SharedPreferences.getInstance();
+    if (name.text == "" ||email.text == "" || password.text == "") {
+      print("empty");
+    } else {
+      BS.setString("name", name.text);
+      BS.setString("email", email.text);
+      BS.setString("password", password.text);
+      Navigator.push(context, MaterialPageRoute(builder: (_) => SingIn()));
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: Icon(Icons.keyboard_arrow_left, size: 45)),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_arrow_left, size: 40),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
 
@@ -49,28 +78,30 @@ class _SingUpState extends State<SingUp> {
                 ),
               ),
               SizedBox(height: 25),
-              Container(
-                height: 48,
-                width: 335,
-                color: Color(0xfffE9ECF2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/google.png', height: 24, width: 24),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        "Sign in with Google",
-                        style: GoogleFonts.urbanist(
-                          textStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+              Card(
+                child: Container(
+                  height: 48,
+                  width: 335,
+                  color: Color(0xfffE9ECF2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/google.png', height: 24, width: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          "Sign in with Google",
+                          style: GoogleFonts.urbanist(
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -93,6 +124,7 @@ class _SingUpState extends State<SingUp> {
                 width: 335,
                 height: 60,
                 child: TextField(
+                  controller: name,
                   decoration: InputDecoration(
                     labelText: "Type your username",
                     labelStyle: TextStyle(
@@ -110,6 +142,7 @@ class _SingUpState extends State<SingUp> {
                 width: 335,
                 height: 60,
                 child: TextField(
+                  controller: email,
                   decoration: InputDecoration(
                     labelText: "Type your email",
                     labelStyle: TextStyle(
@@ -126,6 +159,7 @@ class _SingUpState extends State<SingUp> {
                 height: 60,
 
                 child: TextField(
+                  controller: password,
                   obscureText: _obscureText,
                   decoration: InputDecoration(
                     labelText: "Type your password",
@@ -148,62 +182,98 @@ class _SingUpState extends State<SingUp> {
                   ),
                 ),
               ),
-SizedBox(height: 15,),
-              Container(
-               
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Wrap(
-                      children: [
-                        Text(
-                          "I agree to the company ",
-                          style: GoogleFonts.urbanist(
-                            textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xfff808D9E),
-                            ),
-                          ),
-                        ),
-                        
-                        Text(
-                      "Term of Service and Privacy Policy",
-                      style: GoogleFonts.urbanist(
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                      ],
-                    ),
-                    
-                  ],
-                ),
-              ),
-SizedBox(height: 30,),
+              SizedBox(height: 15),
 
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (cntext) => SingIn()),
-                  );
-                },
-                child: Container(
-                  height: 48,
-                  width: 328,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xfff0062FF),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    child: Checkbox(
+                      value: _isChecked,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          _isChecked = newValue!;
+                        });
+                      },
+                    ),
                   ),
 
-                  child: Center(
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(color: Colors.white),
+                  SizedBox(width: 3),
+                  Text(
+                    "I agree to the company ",
+                    style: GoogleFonts.urbanist(
+                      textStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xfff808D9E),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(width: 3),
+
+                  Text(
+                    "Term of Service",
+                    style: GoogleFonts.urbanist(
+                      textStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(width: 3),
+                  Text(
+                    "and",
+                    style: GoogleFonts.urbanist(
+                      textStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xfff808D9E),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 35),
+                  child: Text(
+                    "Privacy Policy",
+                    style: GoogleFonts.urbanist(
+                      textStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 30),
+              Container(
+                height: 50,
+                width: double.maxFinite,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xfff0062FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    await UserRegister();
+                  },
+                  child: Text(
+                    'Sing up',
+                    style: GoogleFonts.urbanist(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: Color(0xfffFFFFFF),
+                      ),
                     ),
                   ),
                 ),
@@ -231,7 +301,7 @@ SizedBox(height: 30,),
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => SingUp()),
+                              MaterialPageRoute(builder: (_) => SingIn()),
                             );
                           },
                           child: Text(
