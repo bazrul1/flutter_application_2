@@ -11,6 +11,38 @@ class SingUp extends StatefulWidget {
 }
 
 class _SingUpState extends State<SingUp> {
+
+String? _errorMessage;
+
+final RegExp _regex = RegExp(r'^[1-9][A-Za-z]{7}$');
+
+
+void _validateInput(String value) {
+setState(() {
+
+if (value.length != 8) {
+
+_errorMessage = "Text must be exactly 8 characters long.";
+
+} else if (!_regex.hasMatch(value)) {
+
+_errorMessage =
+
+"Invalid input. Start with a digit (1-9) and include uppercase and lowercase letters.";
+
+} else {
+
+_errorMessage = null;
+}
+
+});
+
+}
+
+
+
+
+  
   bool _isChecked = false;
   bool _obscureText = true;
 
@@ -29,8 +61,24 @@ class _SingUpState extends State<SingUp> {
       Navigator.push(context, MaterialPageRoute(builder: (_) => SingIn()));
     }
   }
+TextEditingController passCtr = TextEditingController();
+String passtext = "";
 
+Widget Statuswidget(String msg,{ bool ? isok = false}){
+  return Container(
+    child:Row(
+      children: [
+        Icon(isok==true?   Icons.check:Icons.close,
+        color: isok == true? Colors.green : Colors.red,
+        size: 20,
+        ),
+        SizedBox(width: 5,),
+        Text("mes",)
 
+      ],
+    ) ,
+  );
+}
 
 
   @override
@@ -52,7 +100,7 @@ class _SingUpState extends State<SingUp> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10),
+             
               Container(
                 child: Text(
                   "Sign Up",
@@ -182,6 +230,15 @@ class _SingUpState extends State<SingUp> {
                   ),
                 ),
               ),
+              SizedBox(height: 15),
+              if(passtext.length > 1)
+             Column(
+              children: [
+
+               Statuswidget("Minimum 8 characters"),
+              Statuswidget("Atleast 1 number (1-9)"),
+              Statuswidget("Atleast lowercase or uppercase letters"),
+             ],),
               SizedBox(height: 15),
 
               Row(

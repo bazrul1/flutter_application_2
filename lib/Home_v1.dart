@@ -14,7 +14,7 @@ class _HomeV1State extends State<HomeV1> {
 
 logout () async {
   SharedPreferences BS = await SharedPreferences.getInstance();
-  BS.setString("Sing In", "false");
+  BS.setString("login", "false");
   Navigator.push(context, MaterialPageRoute(builder: (_) =>  SingIn()));
 }
 

@@ -23,12 +23,12 @@ Userlogin() async {
     if (email.text == ""|| password.text == "") {
       print("empty");
     } else {
-      if (BS.getString("email") != null) {
+      if (BS.getString("email") != null||BS.getString("password") != null) {
         String emailget = BS.getString("email")!;
         String passwordget = BS.getString("password")!;
 
         if (emailget == email.text && passwordget == password.text) {
-          BS.setString("Sing in", "true");
+          BS.setString("login", "true");
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => HomeV1()));
         } else {
@@ -44,8 +44,8 @@ Userlogin() async {
   void initState() {
     Future.delayed(Duration(microseconds: 2), () async {
       SharedPreferences BS = await SharedPreferences.getInstance();
-      if (BS.getString("Sing in") != null) {
-        if (BS.getString("Sing in") == "true") {
+      if (BS.getString("login") != null) {
+        if (BS.getString("login") == "true") {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => HomeV1()));
         }
