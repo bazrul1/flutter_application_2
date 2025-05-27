@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/sing_in.dart';
+import 'package:flutter_application_2/Home_V02.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomeV01 extends StatefulWidget {
   const HomeV01({Key? key}) : super(key: key);
@@ -11,19 +11,6 @@ class HomeV01 extends StatefulWidget {
 }
 
 class _HomeV01State extends State<HomeV01> {
-
-
-logout () async {
-  SharedPreferences BS = await SharedPreferences.getInstance();
-  BS.setString("login", "false");
-  Navigator.push(context, MaterialPageRoute(builder: (_) =>  SingIn()));
-}
-
-
-
-
-
-
 
 
   @override
@@ -66,6 +53,7 @@ logout () async {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: ListView(
           children: [
+
             SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -229,7 +217,10 @@ logout () async {
             Container(
               height: 86,
               width: 335,
-              decoration: BoxDecoration(border: Border.all()),
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color.fromARGB(255, 232, 220, 220)),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
@@ -271,7 +262,10 @@ SizedBox(height: 30),
             Container(
               height: 86,
               width: 335,
-              decoration: BoxDecoration(border: Border.all()),
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color.fromARGB(255, 232, 220, 220)),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
@@ -322,7 +316,7 @@ SizedBox(height: 30),
             IconButton(
               icon: const Icon(Icons.grid_view),
               color: Color(0xfff7E8CA0),
-              onPressed: () {logout();},
+              onPressed: () {},
             ),
             const SizedBox(width: 20),
             IconButton(
@@ -347,7 +341,7 @@ SizedBox(height: 30),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 34, 34, 34),
-        onPressed: () {},
+        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_) => HomeV02()));},
         child: Image.asset('assets/Dashboard.png'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
