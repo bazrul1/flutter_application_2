@@ -12,33 +12,41 @@ class SingUp extends StatefulWidget {
 
 class _SingUpState extends State<SingUp> {
 
-String? _errorMessage;
+// String? _errorMessage;
 
-final RegExp _regex = RegExp(r'^[1-9][A-Za-z]{7}$');
+// final RegExp _regexNumber = RegExp(r'^[1-9][A-Za-z]{7}$');
+// final RegExp _regexUpercase = RegExp(r'^[1-9][A-Za-z]{7}$');
+// final RegExp _regexLowercase = RegExp(r'^[1-9][A-Za-z]{7}$');
 
 
-void _validateInput(String value) {
-setState(() {
+// void _validateInput(String value) {
+// setState(() {
 
-if (value.length != 8) {
+// if (value.length != 8) {
 
-_errorMessage = "Text must be exactly 8 characters long.";
+// _errorMessage = "Text must be exactly 8 characters long.";
 
-} else if (!_regex.hasMatch(value)) {
+// } else if (!_regex.hasMatch(value)) {
 
-_errorMessage =
+// _errorMessage =
 
-"Invalid input. Start with a digit (1-9) and include uppercase and lowercase letters.";
+// "Invalid input. Start with a digit (1-9) and include uppercase and lowercase letters.";
 
-} else {
+// } else {
 
-_errorMessage = null;
-}
+// _errorMessage = null;
+// }
 
-});
+// });
 
-}
+// }
 
+// TextEditingController passCtr = TextEditingController();
+// String passtext = "";
+// bool numbercheck = false;
+// bool upercase = false;
+// bool lowercase = false;
+// bool lanthcase = false;
 
 
 
@@ -61,8 +69,8 @@ _errorMessage = null;
       Navigator.push(context, MaterialPageRoute(builder: (_) => SingIn()));
     }
   }
-TextEditingController passCtr = TextEditingController();
-String passtext = "";
+
+
 
 Widget Statuswidget(String msg,{ bool ? isok = false}){
   return Container(
@@ -230,15 +238,15 @@ Widget Statuswidget(String msg,{ bool ? isok = false}){
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              if(passtext.length > 1)
-             Column(
-              children: [
+              // SizedBox(height: 15),
+            //   if(passtext.length > 1)
+            //  Column(
+            //   children: [
 
-               Statuswidget("Minimum 8 characters"),
-              Statuswidget("Atleast 1 number (1-9)"),
-              Statuswidget("Atleast lowercase or uppercase letters"),
-             ],),
+            //    Statuswidget("Minimum 8 characters"),
+            //   Statuswidget("Atleast 1 number (1-9)"),
+            //   Statuswidget("Atleast lowercase or uppercase letters"),
+            //  ],),
               SizedBox(height: 15),
 
               Row(
